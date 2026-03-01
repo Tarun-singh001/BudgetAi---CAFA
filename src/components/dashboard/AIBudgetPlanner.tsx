@@ -20,8 +20,8 @@ const SUGGESTED_CATEGORIES = [
 ];
 
 export default function AIBudgetPlanner() {
-  const { state, setAIBudgetPlan } = useApp();
-  const { summary } = state;
+  const { state, setAIBudgetPlan, addTransaction } = useApp();
+  const { summary, categories } = state;
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -57,12 +57,13 @@ export default function AIBudgetPlanner() {
   }, []);
 
   const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
+    const currentInput = inputValue.trim();
+    if (!currentInput) return;
 
     const newUserMsg: Message = {
       id: Date.now().toString(),
       sender: 'user',
-      text: inputValue
+      text: currentInput
     };
 
     setMessages(prev => [...prev, newUserMsg]);
@@ -86,14 +87,58 @@ export default function AIBudgetPlanner() {
       }, 1500);
     } else {
       setTimeout(() => {
-        setMessages(prev => [
-          ...prev,
-          {
-            id: Date.now().toString(),
-            sender: 'ai',
-            text: "I've noted that! You can review your budget below."
+        // AI Parsing Logic
+        const expenseRegex = /(?:rs\.?|₹|inr|\$|spent)?\s*(\d+(?:\.\d+)?)\s*(?:for|on)?\s+(.+)/i;
+        const match = currentInput.match(expenseRegex);
+
+        if (match) {
+          const amount = parseFloat(match[1]);
+          const description = match[2].trim();
+
+          let matchedCategory = 'Shopping'; // Default
+          const descLower = description.toLowerCase();
+
+          if (categories) {
+            for (const cat of categories) {
+              if (cat.type === 'expense') {
+                if (descLower.includes(cat.name.toLowerCase())) {
+                  matchedCategory = cat.name;
+                  break;
+                }
+                if (cat.subCategories && cat.subCategories.some(sub => descLower.includes(sub.toLowerCase()))) {
+                  matchedCategory = cat.name;
+                  break;
+                }
+              }
+            }
           }
-        ]);
+
+          addTransaction({
+            type: 'expense',
+            amount: amount,
+            category: matchedCategory,
+            description: description.charAt(0).toUpperCase() + description.slice(1),
+            date: new Date().toISOString()
+          });
+
+          setMessages(prev => [
+            ...prev,
+            {
+              id: Date.now().toString(),
+              sender: 'ai',
+              text: `Got it! I've logged an expense of ${formatCurrency(amount)} for "${description}" under ${matchedCategory}.`
+            }
+          ]);
+        } else {
+          setMessages(prev => [
+            ...prev,
+            {
+              id: Date.now().toString(),
+              sender: 'ai',
+              text: "I've noted that! You can review your budget below or tell me about an expense (e.g., 'Rs 50 for coffee')."
+            }
+          ]);
+        }
         setIsTyping(false);
       }, 1000);
     }
