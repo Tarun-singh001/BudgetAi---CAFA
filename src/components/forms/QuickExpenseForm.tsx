@@ -43,7 +43,7 @@ export default function QuickExpenseForm({ onClose }: QuickExpenseFormProps) {
 
     addTransaction(transaction);
     showSuccess('Expense Added', `₹${data.amount} added to ${data.category}`);
-    
+
     reset();
     onClose();
   };
@@ -69,8 +69,8 @@ export default function QuickExpenseForm({ onClose }: QuickExpenseFormProps) {
             </span>
             <input
               type="number"
-              {...register('amount', { 
-                required: 'Amount is required', 
+              {...register('amount', {
+                required: 'Amount is required',
                 min: { value: 1, message: 'Amount must be at least ₹1' }
               })}
               className="w-full pl-10 pr-4 py-3 border-2 border-secondary-200 dark:border-secondary-700 rounded-xl focus:border-primary-500 focus:outline-none bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white"
@@ -95,13 +95,12 @@ export default function QuickExpenseForm({ onClose }: QuickExpenseFormProps) {
                 type="button"
                 onClick={() => {
                   setSelectedCategory(category.name);
-                  setShowSubCategory(category.subCategories && category.subCategories.length > 0);
+                  setShowSubCategory(!!(category.subCategories && category.subCategories.length > 0));
                 }}
-                className={`p-3 rounded-xl border-2 transition-all duration-200 text-center ${
-                  selectedCategory === category.name
+                className={`p-3 rounded-xl border-2 transition-all duration-200 text-center ${selectedCategory === category.name
                     ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
                     : 'border-secondary-200 dark:border-secondary-700 hover:border-primary-300'
-                }`}
+                  }`}
               >
                 <div className="text-2xl mb-1">{category.icon}</div>
                 <div className="text-xs font-medium text-secondary-900 dark:text-white">

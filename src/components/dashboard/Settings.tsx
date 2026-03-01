@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Settings as SettingsIcon, Moon, Sun, Palette, Bell, Shield, Database, HelpCircle } from 'lucide-react';
+import { Settings as SettingsIcon, Moon, Sun, Palette, Bell, Shield, Database, HelpCircle, LucideIcon } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
+
+type SettingItem =
+  | { label: string; description: string; type: 'toggle'; value: boolean; onChange: (v: boolean) => void; icon?: LucideIcon }
+  | { label: string; description: string; type: 'select'; value: string; onChange: (v: string) => void; options: string[]; icon?: LucideIcon }
+  | { label: string; description: string; type: 'button'; action: string; icon?: LucideIcon };
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
@@ -9,7 +14,7 @@ export default function Settings() {
   const [autoBackup, setAutoBackup] = useState(true);
   const [currency, setCurrency] = useState('INR');
 
-  const settingsSections = [
+  const settingsSections: { title: string; icon: React.ElementType; items: SettingItem[] }[] = [
     {
       title: 'Appearance',
       icon: Palette,
@@ -158,12 +163,12 @@ export default function Settings() {
                 <div className="flex items-center space-x-3">
                   {item.type === 'toggle' && (
                     <button
-                      onClick={() => item.onChange(!item.value)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${item.value ? 'bg-primary-600' : 'bg-secondary-300 dark:bg-secondary-600'
+                      onClick={() => (item as Extract<SettingItem, { type: 'toggle' }>).onChange(!(item as Extract<SettingItem, { type: 'toggle' }>).value)}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${(item as Extract<SettingItem, { type: 'toggle' }>).value ? 'bg-primary-600' : 'bg-secondary-300 dark:bg-secondary-600'
                         }`}
                     >
                       <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${item.value ? 'translate-x-6' : 'translate-x-1'
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${(item as Extract<SettingItem, { type: 'toggle' }>).value ? 'translate-x-6' : 'translate-x-1'
                           }`}
                       />
                     </button>
@@ -171,11 +176,11 @@ export default function Settings() {
 
                   {item.type === 'select' && (
                     <select
-                      value={item.value}
-                      onChange={(e) => item.onChange(e.target.value)}
+                      value={(item as Extract<SettingItem, { type: 'select' }>).value}
+                      onChange={(e) => (item as Extract<SettingItem, { type: 'select' }>).onChange(e.target.value)}
                       className="px-3 py-2 border border-secondary-200 dark:border-secondary-700 rounded-lg bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white text-sm focus:border-primary-500 focus:outline-none"
                     >
-                      {item.options?.map(option => (
+                      {(item as Extract<SettingItem, { type: 'select' }>).options.map(option => (
                         <option key={option} value={option}>{option}</option>
                       ))}
                     </select>
@@ -183,7 +188,7 @@ export default function Settings() {
 
                   {item.type === 'button' && (
                     <button className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors">
-                      {item.action}
+                      {(item as Extract<SettingItem, { type: 'button' }>).action}
                     </button>
                   )}
                 </div>

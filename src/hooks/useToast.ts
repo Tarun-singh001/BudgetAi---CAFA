@@ -11,7 +11,7 @@ export function useToast() {
   const addToast = useCallback((toast: Omit<Notification, 'id' | 'timestamp'>) => {
     const id = Math.random().toString(36).substr(2, 9);
     const timestamp = new Date().toISOString();
-    
+
     const newToast: Toast = {
       ...toast,
       id,
@@ -32,19 +32,19 @@ export function useToast() {
   }, []);
 
   const showSuccess = useCallback((title: string, message?: string) => {
-    return addToast({ type: 'success', title, message });
+    return addToast({ type: 'success', title, message: message || '' });
   }, [addToast]);
 
   const showError = useCallback((title: string, message?: string) => {
-    return addToast({ type: 'error', title, message });
+    return addToast({ type: 'error', title, message: message || '' });
   }, [addToast]);
 
   const showWarning = useCallback((title: string, message?: string) => {
-    return addToast({ type: 'warning', title, message });
+    return addToast({ type: 'warning', title, message: message || '' });
   }, [addToast]);
 
   const showInfo = useCallback((title: string, message?: string) => {
-    return addToast({ type: 'info', title, message });
+    return addToast({ type: 'info', title, message: message || '' });
   }, [addToast]);
 
   const dismissToast = useCallback((id: string) => {
