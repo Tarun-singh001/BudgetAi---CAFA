@@ -59,7 +59,7 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
         <div className="px-4 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-bold text-gray-800">
-              Budget Buddy AI
+              CAFA
             </h1>
           </div>
         </div>
@@ -96,8 +96,8 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
           <button
             onClick={() => navigate('/dashboard')}
             className={`flex flex-col items-center p-3 rounded-xl transition-all ${location.pathname === '/dashboard' || location.pathname === '/dashboard/'
-                ? 'text-purple-600 bg-white/40 shadow-lg'
-                : 'text-gray-700 hover:text-purple-600 hover:bg-white/20'
+              ? 'text-purple-600 bg-white/40 shadow-lg'
+              : 'text-gray-700 hover:text-purple-600 hover:bg-white/20'
               }`}
           >
             <BarChart3 className="w-5 h-5 mb-1" />
@@ -107,8 +107,8 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
           <button
             onClick={() => navigate('/dashboard/expenses')}
             className={`flex flex-col items-center p-3 rounded-xl transition-all ${location.pathname === '/dashboard/expenses'
-                ? 'text-purple-600 bg-white/40 shadow-lg'
-                : 'text-gray-700 hover:text-purple-600 hover:bg-white/20'
+              ? 'text-purple-600 bg-white/40 shadow-lg'
+              : 'text-gray-700 hover:text-purple-600 hover:bg-white/20'
               }`}
           >
             <Receipt className="w-5 h-5 mb-1" />
@@ -118,8 +118,8 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
           <button
             onClick={() => navigate('/')}
             className={`flex flex-col items-center p-3 rounded-xl transition-all ${location.pathname === '/'
-                ? 'text-purple-600 bg-white/40 shadow-lg'
-                : 'text-gray-700 hover:text-purple-600 hover:bg-white/20'
+              ? 'text-purple-600 bg-white/40 shadow-lg'
+              : 'text-gray-700 hover:text-purple-600 hover:bg-white/20'
               }`}
           >
             <QrCode className="w-5 h-5 mb-1" />
@@ -129,8 +129,8 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
           <button
             onClick={() => navigate('/dashboard/ai')}
             className={`flex flex-col items-center p-3 rounded-xl transition-all ${location.pathname === '/dashboard/ai'
-                ? 'text-purple-600 bg-white/40 shadow-lg'
-                : 'text-gray-700 hover:text-purple-600 hover:bg-white/20'
+              ? 'text-purple-600 bg-white/40 shadow-lg'
+              : 'text-gray-700 hover:text-purple-600 hover:bg-white/20'
               }`}
           >
             <Brain className="w-5 h-5 mb-1" />
@@ -140,8 +140,8 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
           <button
             onClick={() => navigate('/dashboard/settings')}
             className={`flex flex-col items-center p-3 rounded-xl transition-all ${location.pathname === '/dashboard/settings'
-                ? 'text-purple-600 bg-white/40 shadow-lg'
-                : 'text-gray-700 hover:text-purple-600 hover:bg-white/20'
+              ? 'text-purple-600 bg-white/40 shadow-lg'
+              : 'text-gray-700 hover:text-purple-600 hover:bg-white/20'
               }`}
           >
             <Settings className="w-5 h-5 mb-1" />

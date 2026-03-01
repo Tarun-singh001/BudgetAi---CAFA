@@ -179,7 +179,7 @@ export default function AIBudgetPlanner() {
           <Brain className="w-6 h-6 text-primary-600" />
         </div>
         <div>
-          <h2 className="font-semibold text-secondary-900 dark:text-white">Budget Buddy AI</h2>
+          <h2 className="font-semibold text-secondary-900 dark:text-white">CAFA</h2>
           <p className="text-xs text-primary-600 dark:text-primary-400 flex items-center">
             <span className="w-2 h-2 rounded-full bg-primary-500 mr-2 animate-pulse"></span>
             Online
@@ -200,8 +200,8 @@ export default function AIBudgetPlanner() {
               <div className={`flex max-w-[85%] ${msg.sender === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                 {/* Avatar */}
                 <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${msg.sender === 'user'
-                    ? 'bg-secondary-100 dark:bg-secondary-700 ml-2'
-                    : 'bg-primary-100 dark:bg-primary-900/20 mr-2'
+                  ? 'bg-secondary-100 dark:bg-secondary-700 ml-2'
+                  : 'bg-primary-100 dark:bg-primary-900/20 mr-2'
                   }`}>
                   {msg.sender === 'user' ? (
                     <User className="w-4 h-4 text-secondary-600 dark:text-white" />
@@ -212,8 +212,8 @@ export default function AIBudgetPlanner() {
 
                 {/* Message Content */}
                 <div className={`p-3 rounded-2xl ${msg.sender === 'user'
-                    ? 'bg-primary-600 text-white rounded-tr-sm'
-                    : 'bg-secondary-100 dark:bg-secondary-700 text-secondary-900 dark:text-white rounded-tl-sm'
+                  ? 'bg-primary-600 text-white rounded-tr-sm'
+                  : 'bg-secondary-100 dark:bg-secondary-700 text-secondary-900 dark:text-white rounded-tl-sm'
                   }`}>
                   <p className="text-sm">{msg.text}</p>
 
@@ -226,8 +226,8 @@ export default function AIBudgetPlanner() {
                             key={cat}
                             onClick={() => toggleCategory(cat)}
                             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all border ${selectedCategories.includes(cat)
-                                ? 'bg-primary-500 border-primary-500 text-white shadow-md scale-105'
-                                : 'bg-white dark:bg-secondary-800 border-secondary-300 dark:border-secondary-600 text-secondary-700 dark:text-secondary-300 hover:border-primary-400'
+                              ? 'bg-primary-500 border-primary-500 text-white shadow-md scale-105'
+                              : 'bg-white dark:bg-secondary-800 border-secondary-300 dark:border-secondary-600 text-secondary-700 dark:text-secondary-300 hover:border-primary-400'
                               }`}
                           >
                             {cat}
@@ -238,8 +238,8 @@ export default function AIBudgetPlanner() {
                         onClick={confirmCategories}
                         disabled={selectedCategories.length === 0}
                         className={`w-full py-2 rounded-xl text-sm font-semibold transition-all flex items-center justify-center ${selectedCategories.length > 0
-                            ? 'bg-primary-600 hover:bg-primary-700 text-white shadow-md'
-                            : 'bg-secondary-200 dark:bg-secondary-600 text-secondary-400 cursor-not-allowed'
+                          ? 'bg-primary-600 hover:bg-primary-700 text-white shadow-md'
+                          : 'bg-secondary-200 dark:bg-secondary-600 text-secondary-400 cursor-not-allowed'
                           }`}
                       >
                         <Check className="w-4 h-4 mr-2" />

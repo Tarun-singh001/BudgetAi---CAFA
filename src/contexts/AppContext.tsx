@@ -235,10 +235,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // Load data from localStorage on mount
   useEffect(() => {
-    const savedTransactions = localStorage.getItem('budget-buddy-transactions');
-    const savedCategories = localStorage.getItem('budget-buddy-categories');
-    const savedBudgets = localStorage.getItem('budget-buddy-budgets');
-    const savedAIPlan = localStorage.getItem('budget-buddy-ai-plan');
+    const savedTransactions = localStorage.getItem('cafa-transactions');
+    const savedCategories = localStorage.getItem('cafa-categories');
+    const savedBudgets = localStorage.getItem('cafa-budgets');
+    const savedAIPlan = localStorage.getItem('cafa-ai-plan');
 
     if (savedTransactions) {
       const transactions = JSON.parse(savedTransactions);
@@ -259,20 +259,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // Save data to localStorage whenever state changes
   useEffect(() => {
-    localStorage.setItem('budget-buddy-transactions', JSON.stringify(state.transactions));
+    localStorage.setItem('cafa-transactions', JSON.stringify(state.transactions));
   }, [state.transactions]);
 
   useEffect(() => {
-    localStorage.setItem('budget-buddy-categories', JSON.stringify(state.categories));
+    localStorage.setItem('cafa-categories', JSON.stringify(state.categories));
   }, [state.categories]);
 
   useEffect(() => {
-    localStorage.setItem('budget-buddy-budgets', JSON.stringify(state.budgets));
+    localStorage.setItem('cafa-budgets', JSON.stringify(state.budgets));
   }, [state.budgets]);
 
   useEffect(() => {
-    if (state.aiBudgetPlan) {
-      localStorage.setItem('budget-buddy-ai-plan', JSON.stringify(state.aiBudgetPlan));
+    if (state.aiBudgetPlan && Object.keys(state.aiBudgetPlan).length > 0) {
+      localStorage.setItem('cafa-ai-plan', JSON.stringify(state.aiBudgetPlan));
     }
   }, [state.aiBudgetPlan]);
 

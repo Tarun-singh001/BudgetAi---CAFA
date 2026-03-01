@@ -4,7 +4,7 @@ type Theme = 'light' | 'dark';
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem('budget-buddy-theme');
+    const saved = localStorage.getItem('cafa-theme');
     if (saved === 'dark' || saved === 'light') {
       return saved;
     }
@@ -12,7 +12,7 @@ export function useTheme() {
   });
 
   useEffect(() => {
-    localStorage.setItem('budget-buddy-theme', theme);
+    localStorage.setItem('cafa-theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {

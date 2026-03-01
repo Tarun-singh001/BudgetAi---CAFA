@@ -111,7 +111,7 @@ export default function Settings() {
               Settings
             </h2>
             <p className="text-secondary-500 dark:text-secondary-400">
-              Customize your Budget Buddy AI experience
+              Customize your CAFA experience
             </p>
           </div>
         </div>
@@ -268,7 +268,7 @@ export default function Settings() {
           <SettingsIcon className="w-8 h-8 text-primary-600" />
         </div>
         <h3 className="text-lg font-semibold text-secondary-900 dark:text-white mb-2">
-          Budget Buddy AI
+          CAFA
         </h3>
         <p className="text-secondary-500 dark:text-secondary-400 mb-4">
           Version 1.0.0 • Built with ❤️
