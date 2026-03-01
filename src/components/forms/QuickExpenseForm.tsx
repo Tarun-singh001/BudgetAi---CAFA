@@ -21,6 +21,7 @@ export default function QuickExpenseForm({ onClose }: QuickExpenseFormProps) {
   const { showSuccess } = useToast();
   const [showSubCategory, setShowSubCategory] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [eqState, setEqState] = useState<'low' | 'medium' | 'high'>('medium');
 
   const {
     register,
@@ -33,12 +34,28 @@ export default function QuickExpenseForm({ onClose }: QuickExpenseFormProps) {
   const selectedCategoryData = state.categories.find(c => c.name === watch('category'));
 
   const handleExpenseSubmit = (data: QuickExpenseData) => {
+    let eqScore = 50;
+    let sentiment: 'positive' | 'neutral' | 'negative' = 'neutral';
+
+    if (eqState === 'low') {
+      eqScore = 20;
+      sentiment = 'neutral';
+    } else if (eqState === 'medium') {
+      eqScore = 50;
+      sentiment = 'neutral';
+    } else {
+      eqScore = 80;
+      sentiment = 'positive';
+    }
+
     const transaction: Omit<Transaction, 'id'> = {
       type: 'expense',
       amount: parseFloat(data.amount),
       category: data.category,
       description: data.description || 'Quick expense',
       date: new Date().toISOString(),
+      eqScore,
+      sentiment
     };
 
     addTransaction(transaction);
@@ -98,8 +115,8 @@ export default function QuickExpenseForm({ onClose }: QuickExpenseFormProps) {
                   setShowSubCategory(!!(category.subCategories && category.subCategories.length > 0));
                 }}
                 className={`p-3 rounded-xl border-2 transition-all duration-200 text-center ${selectedCategory === category.name
-                    ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                    : 'border-secondary-200 dark:border-secondary-700 hover:border-primary-300'
+                  ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                  : 'border-secondary-200 dark:border-secondary-700 hover:border-primary-300'
                   }`}
               >
                 <div className="text-2xl mb-1">{category.icon}</div>
@@ -138,6 +155,32 @@ export default function QuickExpenseForm({ onClose }: QuickExpenseFormProps) {
             </div>
           </motion.div>
         )}
+
+        {/* EQ State Selection */}
+        <div>
+          <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
+            Why did you spend this? (EQ Tracking)
+          </label>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { id: 'low', label: 'Essential', score: '20' },
+              { id: 'medium', label: 'Planned', score: '50' },
+              { id: 'high', label: 'Treat/Impulse', score: '80' }
+            ].map((state) => (
+              <button
+                key={state.id}
+                type="button"
+                onClick={() => setEqState(state.id as any)}
+                className={`p-2 text-sm rounded-lg border transition-all ${eqState === state.id
+                    ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 font-medium'
+                    : 'border-secondary-200 dark:border-secondary-700 text-secondary-600 dark:text-secondary-400 hover:border-primary-300'
+                  }`}
+              >
+                {state.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Description */}
         <div>

@@ -8,6 +8,8 @@ export interface Transaction {
   date: string;
   paymentMethod?: string;
   recipient?: string;
+  eqScore?: number; // Emotional Quotient (1-100)
+  sentiment?: 'positive' | 'neutral' | 'negative';
 }
 
 export interface Category {

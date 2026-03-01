@@ -22,6 +22,19 @@ export default function RecentTransactions() {
     };
   };
 
+  const getEqColor = (score: number) => {
+    if (score >= 70) return 'bg-error-100 text-error-700 dark:bg-error-900/30 dark:text-error-400 border-error-200 dark:border-error-800';
+    if (score >= 40) return 'bg-warning-100 text-warning-700 dark:bg-warning-900/30 dark:text-warning-400 border-warning-200 dark:border-warning-800';
+    return 'bg-success-100 text-success-700 dark:bg-success-900/30 dark:text-success-400 border-success-200 dark:border-success-800';
+  };
+
+  const getSentimentEmoji = (sentiment?: string) => {
+    if (sentiment === 'positive') return '🤩';
+    if (sentiment === 'negative') return '😟';
+    if (sentiment === 'neutral') return '😐';
+    return '';
+  };
+
   // Format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -34,9 +47,9 @@ export default function RecentTransactions() {
     } else if (date.toDateString() === yesterday.toDateString()) {
       return 'Yesterday';
     } else {
-      return date.toLocaleDateString('en-IN', { 
-        day: 'numeric', 
-        month: 'short' 
+      return date.toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'short'
       });
     }
   };
@@ -63,7 +76,7 @@ export default function RecentTransactions() {
           {recentTransactions.map((transaction, index) => {
             const categoryInfo = getCategoryInfo(transaction.category);
             const isIncome = transaction.type === 'income';
-            
+
             return (
               <motion.div
                 key={transaction.id}
@@ -73,32 +86,40 @@ export default function RecentTransactions() {
                 className="flex items-center justify-between p-4 bg-secondary-50 dark:bg-secondary-700/50 rounded-xl hover:bg-secondary-100 dark:hover:bg-secondary-700 transition-colors"
               >
                 <div className="flex items-center space-x-3">
-                  <div 
+                  <div
                     className="w-10 h-10 rounded-full flex items-center justify-center text-lg"
                     style={{ backgroundColor: `${categoryInfo.color}20` }}
                   >
                     {categoryInfo.icon}
                   </div>
-                  
+
                   <div>
                     <p className="font-medium text-secondary-900 dark:text-white">
                       {transaction.description || transaction.category}
                     </p>
-                    <div className="flex items-center space-x-2 text-sm text-secondary-500 dark:text-secondary-400">
+                    <div className="flex items-center space-x-2 text-sm text-secondary-500 dark:text-secondary-400 mt-1">
                       <span>{transaction.category}</span>
                       <span>•</span>
                       <span>{formatDate(transaction.date)}</span>
+
+                      {!isIncome && transaction.eqScore !== undefined && (
+                        <>
+                          <span>•</span>
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full border ${getEqColor(transaction.eqScore)}`}>
+                            EQ: {transaction.eqScore} {getSentimentEmoji(transaction.sentiment)}
+                          </span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3">
                   <div className="text-right">
-                    <p className={`font-semibold ${
-                      isIncome 
-                        ? 'text-success-600 dark:text-success-400' 
+                    <p className={`font-semibold ${isIncome
+                        ? 'text-success-600 dark:text-success-400'
                         : 'text-error-600 dark:text-error-400'
-                    }`}>
+                      }`}>
                       {isIncome ? '+' : '-'}{formatCurrency(transaction.amount)}
                     </p>
                     <div className="flex items-center space-x-1 text-xs text-secondary-500 dark:text-secondary-400">

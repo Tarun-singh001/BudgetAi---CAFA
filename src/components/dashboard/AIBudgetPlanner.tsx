@@ -113,12 +113,28 @@ export default function AIBudgetPlanner() {
             }
           }
 
+          // Heuristic for EQ and Sentiment based on category
+          let eqScore = 50;
+          let sentiment: 'positive' | 'neutral' | 'negative' = 'neutral';
+          const highEqCategories = ['Entertainment', 'Shopping', 'Food & Dining'];
+          const lowEqCategories = ['Bills & Utilities', 'Emergency Fund', 'Education'];
+
+          if (highEqCategories.includes(matchedCategory)) {
+            eqScore = 80; // Typically impulsive or high gratification
+            sentiment = 'positive';
+          } else if (lowEqCategories.includes(matchedCategory)) {
+            eqScore = 20; // Essential/utilitarian
+            sentiment = 'neutral';
+          }
+
           addTransaction({
             type: 'expense',
             amount: amount,
             category: matchedCategory,
             description: description.charAt(0).toUpperCase() + description.slice(1),
-            date: new Date().toISOString()
+            date: new Date().toISOString(),
+            eqScore,
+            sentiment
           });
 
           setMessages(prev => [
@@ -126,7 +142,7 @@ export default function AIBudgetPlanner() {
             {
               id: Date.now().toString(),
               sender: 'ai',
-              text: `Got it! I've logged an expense of ${formatCurrency(amount)} for "${description}" under ${matchedCategory}.`
+              text: `Got it! I've logged an expense of ${formatCurrency(amount)} for "${description}" under ${matchedCategory} (EQ Score: ${eqScore}/100 🧠).`
             }
           ]);
         } else {
